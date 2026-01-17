@@ -6,8 +6,16 @@ public class SceneFadeIn : MonoBehaviour
     public CanvasGroup fadeGroup;
     public float fadeTime = 1.5f;
 
+    public AudioSource audioSource;
+    public AudioClip startupSound;
+
     void Start()
     {
+        if (audioSource != null && startupSound != null)
+        {
+            audioSource.PlayOneShot(startupSound);
+        }
+
         StartCoroutine(FadeFromBlack());
     }
 
@@ -17,7 +25,7 @@ public class SceneFadeIn : MonoBehaviour
 
         while (t < fadeTime)
         {
-            t += Time.deltaTime;
+            t += UnityEngine.Time.deltaTime;
             fadeGroup.alpha = 1f - (t / fadeTime);
             yield return null;
         }

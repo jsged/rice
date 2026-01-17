@@ -38,4 +38,11 @@ public class StartButton : MonoBehaviour,
         shadow.effectDistance = new Vector2(1, -1);
         label.anchoredPosition = new Vector2(1, -1);
     }
+
+    public void SetPressed(bool pressed)
+{
+    if (pressed) SetPressed();
+    else SetRaised();
+}
+
 }
