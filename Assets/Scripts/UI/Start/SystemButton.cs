@@ -1,14 +1,17 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using TMPro;
 
-public class StartButton : MonoBehaviour,
+public class SystemButton : MonoBehaviour,
     IPointerDownHandler,
     IPointerUpHandler
 {
     public Outline outline;
     public Shadow shadow;
     public RectTransform label;
+
+    bool latched;
 
     void Awake()
     {
@@ -17,12 +20,25 @@ public class StartButton : MonoBehaviour,
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        SetPressed();
+        if (!latched)
+            SetPressed();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        SetRaised();
+        if (!latched)
+            SetRaised();
+    }
+
+    // Called by StartMenuController
+    public void SetLatched(bool value)
+    {
+        latched = value;
+
+        if (latched)
+            SetPressed();
+        else
+            SetRaised();
     }
 
     void SetPressed()
@@ -38,11 +54,4 @@ public class StartButton : MonoBehaviour,
         shadow.effectDistance = new Vector2(1, -1);
         label.anchoredPosition = new Vector2(1, -1);
     }
-
-    public void SetPressed(bool pressed)
-{
-    if (pressed) SetPressed();
-    else SetRaised();
-}
-
 }

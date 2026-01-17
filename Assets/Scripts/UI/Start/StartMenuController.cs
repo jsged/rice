@@ -5,21 +5,23 @@ public class StartMenuController : MonoBehaviour
 {
     [Header("References")]
     public GameObject startMenu;
-    public RectTransform startMenuRect;
+    public SystemButton startButton;
 
     bool isOpen;
 
     void Awake()
     {
-        if (startMenu != null)
-            startMenu.SetActive(false);
+        startMenu.SetActive(false);
+        startButton.SetLatched(false);
     }
 
-    // Call this from the Start button OnClick
+    // Called by Start button OnClick
     public void ToggleMenu()
     {
         isOpen = !isOpen;
+
         startMenu.SetActive(isOpen);
+        startButton.SetLatched(isOpen);
     }
 
     void Update()
@@ -29,12 +31,11 @@ public class StartMenuController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            // Ignore clicks over UI
-            if (EventSystem.current != null &&
-                EventSystem.current.IsPointerOverGameObject())
-                return;
-
-            CloseMenu();
+            // If click is NOT over any UI element
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                CloseMenu();
+            }
         }
     }
 
@@ -42,5 +43,6 @@ public class StartMenuController : MonoBehaviour
     {
         isOpen = false;
         startMenu.SetActive(false);
+        startButton.SetLatched(false);
     }
 }
